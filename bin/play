@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd $(dirname $0)
+
 while :
 do
   aplay -D hw:1,0 ../assets/sounds/alarm.wav
