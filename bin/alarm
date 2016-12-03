@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+while :
+do
+  aplay -D hw:1,0 ../assets/sounds/alarm.wav
+done
