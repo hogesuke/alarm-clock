@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+
+from lib.alarm_clock import AlarmClock
+
+clock = AlarmClock()
+clock.alarm()

@@ -7,7 +7,7 @@ class AlarmClock:
         self.alarm_time = time(5, 0, 0, 0)
 
     def alarm(self):
-        cmd = '../bin/alarm'
+        cmd = '../bin/play'
         proc = Popen(cmd.strip().split(' '))
         sleep(5)
         proc.terminate()
