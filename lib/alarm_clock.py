@@ -14,8 +14,12 @@ class AlarmClock:
     def run(self):
         while True:
             if self.__is_reached_wakeup_time():
-                self.sound()
+                start_datetime = datetime.now()
+                proc = self.sound()
                 self.wakeuped = True
+
+                if proc.poll() is None and self.__is_time_out(start_datetime):
+                    proc.terminate()
 
             if self.__is_changed_day():
                 self.wakeuped = False
@@ -23,12 +27,8 @@ class AlarmClock:
             sleep(1)
 
     def sound(self):
-        start_datetime = datetime.now()
         cmd = os.path.dirname(__file__) + '/../bin/sound_alarm'
-        proc = Popen(cmd.strip().split(' '))
-
-        if proc.poll() == None and self.__is_time_out(start_datetime):
-            proc.terminate()
+        return Popen(cmd.strip().split(' '))
 
     def __is_reached_wakeup_time(self):
         return self.alarm_time <= datetime.now().time() and not self.wakeuped
