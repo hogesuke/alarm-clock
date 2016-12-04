@@ -1,9 +1,7 @@
-import os
 import threading
 from datetime import datetime, time, timedelta
-from subprocess import Popen
 from time import sleep
-from .alarm_player import AlarmPlayer
+from alarm_player import AlarmPlayer
 
 class AlarmClock:
     def __init__(self, hour=5, minute=0, second=0):
