@@ -18,8 +18,10 @@ class AlarmClock:
                 proc = self.sound()
                 self.wakeuped = True
 
-                if proc.poll() is None and self.__is_time_out(start_datetime):
-                    proc.terminate()
+                while True:
+                    if proc.poll() is None and self.__is_time_out(start_datetime):
+                        proc.terminate()
+                        break
 
             if self.__is_changed_day():
                 self.wakeuped = False
