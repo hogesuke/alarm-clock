@@ -12,4 +12,4 @@ if len(argvs) != 4:
     print('Usage: # python %s hour minute second' % argvs[0])
     quit()
 
-clock = AlarmClock(argvs[1], argvs[2], argvs[3])
+clock = AlarmClock(int(argvs[1]), int(argvs[2]), int(argvs[3]))
