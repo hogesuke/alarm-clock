@@ -33,7 +33,7 @@ class AlarmClock:
         return self.alarm_time < datetime.now().time() and not self.wakeuped
 
     def __is_time_out(self):
-        return self.alarm_time < (datetime.now() + timedelta(minutes=10)).time()
+        return (self.alarm_time + timedelta(minutes=10)).time() < datetime.now().time()
 
     def __is_changed_day(self):
         current_day = datetime.today().day
