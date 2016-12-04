@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from subprocess import Popen
 from time import sleep
 
@@ -26,8 +26,14 @@ class AlarmClock:
         cmd = os.path.dirname(__file__) + '/../bin/sound_alarm'
         proc = Popen(cmd.strip().split(' '))
 
+        if proc.poll() == None and self.__is_time_out():
+            proc.terminate()
+
     def __is_reached_wakeup_time(self):
         return self.alarm_time < datetime.now().time() and not self.wakeuped
+
+    def __is_time_out(self):
+        return self.alarm_time < (datetime.now().time() + timedelta(minutes=10))
 
     def __is_changed_day(self):
         current_day = datetime.today().day
