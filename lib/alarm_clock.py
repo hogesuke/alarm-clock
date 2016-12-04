@@ -23,17 +23,18 @@ class AlarmClock:
             sleep(1)
 
     def sound(self):
+        start_datetime = datetime.now()
         cmd = os.path.dirname(__file__) + '/../bin/sound_alarm'
         proc = Popen(cmd.strip().split(' '))
 
-        if proc.poll() == None and self.__is_time_out():
+        if proc.poll() == None and self.__is_time_out(start_datetime):
             proc.terminate()
 
     def __is_reached_wakeup_time(self):
-        return self.alarm_time < datetime.now().time() and not self.wakeuped
+        return self.alarm_time <= datetime.now().time() and not self.wakeuped
 
-    def __is_time_out(self):
-        return (self.alarm_time + timedelta(minutes=10)).time() < datetime.now().time()
+    def __is_time_out(self, start_datetime):
+        return (start_datetime + timedelta(minutes=10)) <= datetime.now().time()
 
     def __is_changed_day(self):
         current_day = datetime.today().day
