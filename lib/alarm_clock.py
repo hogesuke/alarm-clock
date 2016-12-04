@@ -6,7 +6,7 @@ from time import sleep
 class AlarmClock:
     def __init__(self, hour=5, minute=0, second=0):
         self.alarm_time = time(hour, minute, second, 0)
-        self.wakeuped = True
+        self.wakeuped = self.alarm_time < datetime.now().time()
         self.day = datetime.today().day
 
         self.run()
