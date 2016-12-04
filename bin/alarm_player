@@ -4,7 +4,7 @@ import sys, os
 
 sys.path.append(os.path.dirname(__file__) + '/../lib')
 
-from alarm_clock import AlarmClock
+from alarm_player import AlarmPlayer
 
-clock = AlarmClock()
-clock.alarm()
+player = AlarmPlayer()
+player.play()
