@@ -13,11 +13,11 @@ class AlarmClock:
 
     def run(self):
         while True:
-            if self.__is_wakeup_time:
+            if self.__is_reached_wakeup_time():
                 self.sound()
                 self.wakeuped = True
 
-            if self.__is_changed_day:
+            if self.__is_changed_day():
                 self.wakeuped = False
 
             sleep(1)
@@ -26,7 +26,7 @@ class AlarmClock:
         cmd = os.path.dirname(__file__) + '/../bin/sound_alarm'
         proc = Popen(cmd.strip().split(' '))
 
-    def __is_wakeup_time(self):
+    def __is_reached_wakeup_time(self):
         return self.alarm_time < datetime.now().time() and not self.wakeuped
 
     def __is_changed_day(self):
