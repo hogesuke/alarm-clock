@@ -8,7 +8,12 @@ class AlarmClock:
         self.alarm_time = time(5, 0, 0, 0)
 
     def alarm(self):
-        cmd = os.path.dirname(__file__) + '/../bin/play'
+        cmd = "aplay -D hw:1,0 %s" % os.path.dirname(__file__) + '/../assets/sounds/alarm.wav'
         proc = Popen(cmd.strip().split(' '))
-        sleep(5)
-        proc.terminate()
+
+        while True:
+            if proc.poll():
+                self.alarm()
+                break
+            sleep(0.5)
+
