@@ -22,7 +22,7 @@ class AlarmClock:
             sleep(1)
 
             if self.is_plaing:
-                sleep(0.2)
+                sleep(0.1)
 
                 if self.is_pausing and not self.sensor.is_touched():
                     self.is_pausing = False
