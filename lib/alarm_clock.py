@@ -19,10 +19,9 @@ class AlarmClock:
 
     def run(self):
         while True:
-            sleep(1)
+            sleep(0.1 if self.is_plaing else 1)
 
             if self.is_plaing:
-                sleep(0.1)
 
                 if self.is_pausing and not self.sensor.is_touched():
                     self.is_pausing = False
