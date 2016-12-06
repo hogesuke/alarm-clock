@@ -12,7 +12,7 @@ class AlarmPlayer:
         self.proc = Popen(cmd.strip().split(' '))
 
         while True:
-            if self.proc.poll() == 0 or not self.is_stopped:
+            if self.proc.poll() == 0 and not self.is_stopped:
                 self.play()
                 break
             sleep(0.2)
