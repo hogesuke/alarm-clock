@@ -5,7 +5,7 @@ from liquidcrystal import LiquidCrystal
 lcd = LiquidCrystal(7, 8, 25, 24, 23, 18)
 
 lcd.clear()
-lcd.setCursor(0, 0)
+lcd.set_cursor(0, 0)
 lcd.write("Hello World!")
 
 counter = 1
