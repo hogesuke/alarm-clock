@@ -24,5 +24,6 @@ class Questioner:
         y = random.randint(1, 9999)
         operator = random.choice(['+', '-'])
 
+        self.lcd.clear()
         self.lcd.set_cursor(0, 0)
         self.lcd.write('Q%d %d %s %d =' % (q_num, x, operator, y))
