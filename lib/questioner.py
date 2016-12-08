@@ -17,7 +17,6 @@ class Questioner:
     def start(self):
         for i in range(1, self.q_count + 1):
             self.__question(i)
-            webiopi.sleep(3.0)
 
     def __question(self, q_num):
         x = random.randint(1, 9)
@@ -45,6 +44,7 @@ class Questioner:
 
     def __start_input(self):
         scr = curses.initscr()
+        scr.nodelay(1)
         curses.noecho()
         curses.cbreak()
         return scr
