@@ -29,7 +29,7 @@ class LiquidCrystal:
         GPIO.setFunction(self._rs_pin, GPIO.OUT)  # Register Select pin
         GPIO.setFunction(self._enable_pin, GPIO.OUT)  # Enable Signale pin
         for i in range(4):
-            GPIO.setFunction( self._data_pins[i], GPIO.OUT)  # Data pins
+            GPIO.setFunction(self._data_pins[i], GPIO.OUT)  # Data pins
 
         GPIO.digitalWrite(self._rs_pin, False)  # RS pin LOW
         GPIO.digitalWrite(self._enable_pin, False)  # Enable pin LOW
