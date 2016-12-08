@@ -38,17 +38,20 @@ class Questioner:
             if c == ord('q'):
                 break
 
-        self.__end_input()
+        self.__end_input(scr)
 
 
 
     def __start_input(self):
         scr = curses.initscr()
         scr.nodelay(1)
+        scr.keypad(1)
         curses.noecho()
         curses.cbreak()
         return scr
 
-    def __end_input(self):
+    def __end_input(self, scr):
+        scr.nodelay(0)
+        scr.keypad(0)
         curses.nocbreak()
         curses.echo()
