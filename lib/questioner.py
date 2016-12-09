@@ -113,6 +113,6 @@ class Questioner:
         self.lcd.clear()
         self.lcd.set_cursor(0, 0)
         self.lcd.write('Good morning!')
-        sleep(1)
+        sleep(2)
         self.lcd.clear()
 
