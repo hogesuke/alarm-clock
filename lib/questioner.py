@@ -1,6 +1,6 @@
-import webiopi
 import random
 import curses
+import re
 from time import sleep
 
 from liquidcrystal import LiquidCrystal
@@ -37,6 +37,8 @@ class Questioner:
         input_str = ''
         ans_str = str(ans)
 
+
+
         while True:
             sleep(0.1)
 
@@ -47,22 +49,29 @@ class Questioner:
                 self.__write_ans('')
                 continue  # clear
 
-            if c == 'q':
+            if c == 's':
                 break  # skip
+
+            if not c.isdigit():
+                input_str = ''
+                self.__write_ans('')
+                continue  # error
 
             input_str += c
 
             if input_str == ans_str:
                 self.__write_ans(input_str + ' GOOD!')
+                sleep(1)
                 break
 
             if len(input_str) == len(ans_str):
                 self.__write_ans(input_str + ' NG')
                 sleep(1)
                 input_str = ''
+                self.__write_ans('')
                 continue
 
-            self.lcd.write(input_str)
+            self.__write_ans(input_str)
 
     def __write_ans(self, input):
         self.lcd.set_cursor(0, 1)
