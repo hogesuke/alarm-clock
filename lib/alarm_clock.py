@@ -3,6 +3,7 @@ from datetime import datetime, time, timedelta
 from time import sleep
 from alarm_player import AlarmPlayer
 from touch_sensor import TouchSensor
+from questioner import Questioner
 
 class AlarmClock:
     def __init__(self, hour=5, minute=0, second=0):
@@ -14,6 +15,7 @@ class AlarmClock:
         self.start_datetime = None
         self.player = AlarmPlayer()
         self.sensor = TouchSensor()
+        self.questioner = Questioner()
 
         self.run()
 
@@ -40,6 +42,7 @@ class AlarmClock:
 
             if self.__is_wakeup_time():
                 self.__sound()
+                self.__question()
 
             if self.__is_changed_day():
                 self.is_invoked = False
@@ -56,6 +59,14 @@ class AlarmClock:
 
     def __play(self):
         self.player.play()
+
+    def __question(self):
+        th = threading.Thread(target=self.__calc, name='question_thread')
+        th.setDaemon(True)
+        th.start()
+
+    def __calc(self):
+        self.questioner.start()
 
     def __is_wakeup_time(self):
         return self.alarm_time <= datetime.now().time() and not self.is_invoked

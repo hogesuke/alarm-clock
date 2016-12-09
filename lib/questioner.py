@@ -12,8 +12,6 @@ class Questioner:
         self.lcd.clear()
         self.q_count = q_count
 
-        self.start()
-
     def start(self):
         for i in range(1, self.q_count + 1):
             self.__question(i)
@@ -39,8 +37,6 @@ class Questioner:
                 break
 
         self.__end_input(scr)
-
-
 
     def __start_input(self):
         scr = curses.initscr()
