@@ -59,12 +59,12 @@ class Questioner:
 
             if input_str == ans_str:
                 self.__write_ans(input_str + ' GOOD!')
-                sleep(1)
+                sleep(0.7)
                 break
 
             if len(input_str) == len(ans_str):
                 self.__write_ans(input_str + ' NG')
-                sleep(1)
+                sleep(0.7)
                 input_str = ''
                 self.__clear_ans()
                 continue
