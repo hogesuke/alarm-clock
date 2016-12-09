@@ -37,8 +37,6 @@ class Questioner:
         input_str = ''
         ans_str = str(ans)
 
-
-
         while True:
             sleep(0.1)
 
@@ -46,15 +44,15 @@ class Questioner:
 
             if c == 'c':
                 input_str = ''
-                self.__write_ans('')
+                self.__clear_ans()
                 continue  # clear
 
             if c == 's':
                 break  # skip
 
-            if not c.isdigit():
+            if self.__invalid_input(c, input_str):
                 input_str = ''
-                self.__write_ans('')
+                self.__clear_ans()
                 continue  # error
 
             input_str += c
@@ -68,11 +66,21 @@ class Questioner:
                 self.__write_ans(input_str + ' NG')
                 sleep(1)
                 input_str = ''
-                self.__write_ans('')
+                self.__clear_ans()
                 continue
 
             self.__write_ans(input_str)
 
+    def __invalid_input(self, c, input_str):
+        if len(input_str) == 0 and c == '-':
+            return False
+
+        return not c.isdigit()
+
     def __write_ans(self, input):
         self.lcd.set_cursor(0, 1)
         self.lcd.write(input)
+
+    def __clear_ans(self):
+        self.lcd.set_cursor(0, 1)
+        self.lcd.write(' ' * 16)
