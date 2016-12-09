@@ -34,11 +34,34 @@ class Questioner:
         curses.wrapper(self.__read_input, ans)
 
     def __read_input(self, scr, ans):
-        print(ans)
+        input_str = ''
+        ans_str = str(ans)
+
+        self.lcd.set_cursor(0, 1)
+
         while True:
             sleep(0.1)
 
-            c = scr.getch()
+            c = chr(scr.getch())
 
-            if c == ord('q'):
+            if c == 'c':
+                input_str = ''
+                self.lcd.write('')
+                continue  # clear
+
+            if c == 'q':
+                break  # skip
+
+            input_str += c
+
+            if input_str == ans_str:
+                self.lcd.write(input_str + ' GOOD!')
                 break
+
+            if len(input_str) == len(ans_str):
+                self.lcd.write(input_str + ' NG')
+                sleep(1)
+                input_str = ''
+                continue
+
+            self.lcd.write(input_str)
