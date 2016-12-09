@@ -49,7 +49,7 @@ class AlarmClock:
                     continue
 
                 # 全問正解で停止
-                if self.questioner.is_completed():
+                if self.questioner.has_completed():
                     self.__init_status()
                     self.player.terminate()
                     continue

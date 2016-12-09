@@ -28,7 +28,7 @@ class Questioner:
         self.is_completed = True
         self.__write_goodmorning()
 
-    def is_completed(self):
+    def has_completed(self):
         return self.is_completed
 
     def terminate(self):
