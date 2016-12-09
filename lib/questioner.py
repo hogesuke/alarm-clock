@@ -37,8 +37,6 @@ class Questioner:
         input_str = ''
         ans_str = str(ans)
 
-        self.lcd.set_cursor(0, 1)
-
         while True:
             sleep(0.1)
 
@@ -46,7 +44,7 @@ class Questioner:
 
             if c == 'c':
                 input_str = ''
-                self.lcd.write('')
+                self.__write_ans('')
                 continue  # clear
 
             if c == 'q':
@@ -55,13 +53,17 @@ class Questioner:
             input_str += c
 
             if input_str == ans_str:
-                self.lcd.write(input_str + ' GOOD!')
+                self.__write_ans(input_str + ' GOOD!')
                 break
 
             if len(input_str) == len(ans_str):
-                self.lcd.write(input_str + ' NG')
+                self.__write_ans(input_str + ' NG')
                 sleep(1)
                 input_str = ''
                 continue
 
             self.lcd.write(input_str)
+
+    def __write_ans(self, input):
+        self.lcd.set_cursor(0, 1)
+        self.lcd.write(input)
