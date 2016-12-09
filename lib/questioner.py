@@ -25,18 +25,21 @@ class Questioner:
         self.lcd.set_cursor(0, 0)
         self.lcd.write('Q%d %d %s %d =' % (q_num, x, operator, y))
 
-        scr = self.__start_input()
+        # scr = self.__start_input()
 
+        curses.wrapper(self.__read_input)
+
+        # self.__end_input(scr)
+
+    def __read_input(self, scr):
         while True:
             sleep(0.1)
 
             c = scr.getch()
-            print(c)
 
             if c == ord('q'):
                 break
 
-        self.__end_input(scr)
 
     def __start_input(self):
         scr = curses.initscr()
