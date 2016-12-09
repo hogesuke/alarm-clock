@@ -12,9 +12,27 @@ class Questioner:
         self.lcd.clear()
         self.q_count = q_count
 
+    def __init_status(self):
+        self.is_completed = False
+        self.force_completed = False
+
     def start(self):
+        self.__init_status()
+
         for i in range(1, self.q_count + 1):
+            if self.force_completed:
+                break
+
             self.__question(i)
+
+        self.is_completed = True
+        self.__write_goodmorning()
+
+    def is_completed(self):
+        return self.is_completed
+
+    def terminate(self):
+        self.force_completed = True
 
     def __question(self, q_num):
         x = random.randint(1, 9)
@@ -40,28 +58,34 @@ class Questioner:
         while True:
             sleep(0.1)
 
+            if self.force_completed:
+                break
+
             c = chr(scr.getch())
 
+            # 入力をクリア
             if c == 'c':
                 input_str = ''
                 self.__clear_ans()
                 continue  # clear
 
+            # 問題をスキップ
             if c == 's':
-                break  # skip
+                break
 
+            # 不正な入力を無視
             if self.__invalid_input(c, input_str):
-                input_str = ''
-                self.__clear_ans()
-                continue  # error
+                continue
 
             input_str += c
 
+            # 正解
             if input_str == ans_str:
                 self.__write_ans(input_str + ' GOOD!')
                 sleep(0.7)
                 break
 
+            # 不正解
             if len(input_str) == len(ans_str):
                 self.__write_ans(input_str + ' NG')
                 sleep(0.7)
@@ -84,3 +108,11 @@ class Questioner:
     def __clear_ans(self):
         self.lcd.set_cursor(0, 1)
         self.lcd.write(' ' * 16)
+
+    def __write_goodmorning(self):
+        self.lcd.clear()
+        self.lcd.set_cursor(0, 0)
+        self.lcd.write('Good morning!')
+        sleep(1)
+        self.lcd.clear()
+

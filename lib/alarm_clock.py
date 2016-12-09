@@ -9,34 +9,48 @@ class AlarmClock:
     def __init__(self, hour=5, minute=0, second=0):
         self.alarm_time = time(hour, minute, second, 0)
         self.is_invoked = self.alarm_time < datetime.now().time()
-        self.is_plaing = False
-        self.is_pausing = False
         self.day = datetime.today().day
-        self.start_datetime = None
         self.player = AlarmPlayer()
         self.sensor = TouchSensor()
         self.questioner = Questioner()
 
         self.run()
 
+    def __init_status(self):
+        self.is_plaing = False
+        self.is_pausing = False
+        self.start_datetime = None
+
     def run(self):
+        self.__init_status()
+
         while True:
             sleep(0.1 if self.is_plaing else 1)
 
             if self.is_plaing:
 
+                # タッチされていない間はアラーム再生
                 if self.is_pausing and not self.sensor.is_touched():
                     self.is_pausing = False
                     self.__sound()
                     continue
 
+                # タッチされている間はアラームの再生停止
                 if not self.is_pausing and self.sensor.is_touched():
                     self.is_pausing = True
                     self.player.terminate()
                     continue
 
+                # 一定時間以上経過で停止
                 if self.__is_time_out(self.start_datetime):
-                    self.is_plaing = False
+                    self.__init_status()
+                    self.player.terminate()
+                    self.questioner.terminate()
+                    continue
+
+                # 全問正解で停止
+                if self.questioner.is_completed():
+                    self.__init_status()
                     self.player.terminate()
                     continue
 
