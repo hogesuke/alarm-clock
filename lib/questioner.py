@@ -19,19 +19,22 @@ class Questioner:
     def __question(self, q_num):
         x = random.randint(1, 9)
         y = random.randint(1, 9)
-        operator = random.choice(['+', '-'])
+        ope = random.choice(['+', '-'])
+        ans = None
+
+        if ope == '+':
+            ans = x + y
+        elif ope == '-':
+            ans = x - y
 
         self.lcd.clear()
         self.lcd.set_cursor(0, 0)
-        self.lcd.write('Q%d %d %s %d =' % (q_num, x, operator, y))
+        self.lcd.write('Q%d %d %s %d =' % (q_num, x, ope, y))
 
-        # scr = self.__start_input()
+        curses.wrapper(self.__read_input, ans)
 
-        curses.wrapper(self.__read_input)
-
-        # self.__end_input(scr)
-
-    def __read_input(self, scr):
+    def __read_input(self, scr, ans):
+        print(ans)
         while True:
             sleep(0.1)
 
@@ -39,18 +42,3 @@ class Questioner:
 
             if c == ord('q'):
                 break
-
-
-    def __start_input(self):
-        scr = curses.initscr()
-        scr.nodelay(1)
-        scr.keypad(1)
-        curses.noecho()
-        curses.cbreak()
-        return scr
-
-    def __end_input(self, scr):
-        scr.nodelay(0)
-        scr.keypad(0)
-        curses.nocbreak()
-        curses.echo()
