@@ -12,11 +12,33 @@ class AlarmPlayer:
         self.proc = Popen(cmd.strip().split(' '))
 
         while True:
-            if self.proc.poll() == 0 and not self.is_stopped:
+
+            # 停止
+            if self.is_stopped:
+                break
+
+            # 繰り返し再生
+            if self.proc.poll() == 0:
                 self.play()
                 break
+
+            # 再生に失敗した場合、再実行
+            if self.proc.poll() == 1:
+                sleep(1)
+                self.play()
+                break
+
             sleep(0.2)
 
     def terminate(self):
         self.is_stopped = True
-        self.proc.terminate()
+
+        if self.proc.poll() is None:
+            self.proc.terminate()
+
+            while self.proc.poll() is None:
+                sleep(0.1)
+
+    def resume(self):
+        self.is_stopped = False
+        self.play()
