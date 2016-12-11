@@ -32,7 +32,7 @@ class AlarmClock:
                 # タッチされていない間はアラーム再生
                 if self.is_pausing and not self.sensor.is_touched():
                     self.is_pausing = False
-                    self.__sound()
+                    self.__sound(True)
                     continue
 
                 # タッチされている間はアラームの再生停止
@@ -61,10 +61,14 @@ class AlarmClock:
             if self.__is_changed_day():
                 self.is_invoked = False
 
-    def __sound(self):
+    def __sound(self, resume=False):
         self.start_datetime = datetime.now()
 
-        th = threading.Thread(target=self.__play, name='sound_thread')
+        if resume:
+            th = threading.Thread(target=self.__resume, name='sound_thread')
+        else:
+            th = threading.Thread(target=self.__play, name='sound_thread')
+
         th.setDaemon(True)
         th.start()
 
@@ -73,6 +77,9 @@ class AlarmClock:
 
     def __play(self):
         self.player.play()
+
+    def __resume(self):
+        self.player.resume()
 
     def __question(self):
         th = threading.Thread(target=self.__calc, name='question_thread')
