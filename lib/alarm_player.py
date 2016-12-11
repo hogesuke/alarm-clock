@@ -19,4 +19,5 @@ class AlarmPlayer:
 
     def terminate(self):
         self.is_stopped = True
-        self.proc.terminate()
+        if self.proc.poll() is None:
+            self.proc.terminate()
