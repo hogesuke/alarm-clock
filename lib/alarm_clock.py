@@ -22,6 +22,7 @@ class AlarmClock:
     def __init_status(self):
         self.is_plaing = False
         self.is_pausing = False
+        self.is_lightuped = False
         self.start_datetime = None
 
     def run(self):
@@ -57,17 +58,20 @@ class AlarmClock:
                     self.player.terminate()
                     continue
 
-            if not self.is_invoked:
 
+            if not self.is_lightuped:
                 if self.__is_lightup_time():
+                    self.is_lightuped = True
                     self.light_controller.power_on()
 
+            if not self.is_invoked:
                 if self.__is_wakeup_time():
                     self.__sound()
                     self.__question()
 
             if self.__is_changed_day():
                 self.is_invoked = False
+                self.is_lightuped = False
 
     def __sound(self, resume=False):
         self.start_datetime = datetime.now()
