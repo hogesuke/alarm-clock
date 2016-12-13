@@ -2,6 +2,7 @@ import os
 from subprocess import Popen
 from time import sleep
 
+
 class AlarmPlayer:
     def __init__(self):
         self.proc = None

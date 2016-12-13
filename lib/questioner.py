@@ -2,11 +2,10 @@ import random
 import curses
 import re
 from time import sleep
-
 from liquidcrystal import LiquidCrystal
 
-class Questioner:
 
+class Questioner:
     def __init__(self, q_count=5):
         self.lcd = LiquidCrystal(7, 8, 25, 24, 23, 18)
         self.lcd.clear()

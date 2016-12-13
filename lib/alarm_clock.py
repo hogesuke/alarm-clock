@@ -4,15 +4,18 @@ from time import sleep
 from alarm_player import AlarmPlayer
 from touch_sensor import TouchSensor
 from questioner import Questioner
+from light_controller import LightController
+
 
 class AlarmClock:
-    def __init__(self, hour=5, minute=0, second=0):
+    def __init__(self, hour=5, minute=0, second=0, ws_url='ws://localhost:8080/light'):
         self.alarm_time = time(hour, minute, second, 0)
         self.is_invoked = self.alarm_time < datetime.now().time()
         self.day = datetime.today().day
         self.player = AlarmPlayer()
         self.sensor = TouchSensor()
         self.questioner = Questioner()
+        self.light_controller = LightController(ws_url)
 
         self.run()
 
@@ -54,9 +57,14 @@ class AlarmClock:
                     self.player.terminate()
                     continue
 
-            if self.__is_wakeup_time():
-                self.__sound()
-                self.__question()
+            if not self.is_invoked:
+
+                if self.__is_lightup_time():
+                    self.light_controller.power_on()
+
+                if self.__is_wakeup_time():
+                    self.__sound()
+                    self.__question()
 
             if self.__is_changed_day():
                 self.is_invoked = False
@@ -89,8 +97,11 @@ class AlarmClock:
     def __calc(self):
         self.questioner.start()
 
+    def __is_lightup_time(self):
+        return self.alarm_time <= (datetime.now() - timedelta(minutes=5)).time()
+
     def __is_wakeup_time(self):
-        return self.alarm_time <= datetime.now().time() and not self.is_invoked
+        return self.alarm_time <= datetime.now().time()
 
     def __is_time_out(self, start_datetime):
         return (start_datetime + timedelta(minutes=10)).time() <= datetime.now().time()
