@@ -98,7 +98,7 @@ class AlarmClock:
         self.questioner.start()
 
     def __is_lightup_time(self):
-        return self.alarm_time <= (datetime.now() - timedelta(minutes=5)).time()
+        return self.alarm_time <= (datetime.now() + timedelta(minutes=5)).time()
 
     def __is_wakeup_time(self):
         return self.alarm_time <= datetime.now().time()
