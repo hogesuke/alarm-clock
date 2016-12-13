@@ -12,6 +12,7 @@ class AlarmClock:
         self.alarm_time = time(hour, minute, second, 0)
         self.is_invoked = self.alarm_time < datetime.now().time()
         self.day = datetime.today().day
+        self.is_lightuped = False
         self.player = AlarmPlayer()
         self.sensor = TouchSensor()
         self.questioner = Questioner()
@@ -22,7 +23,6 @@ class AlarmClock:
     def __init_status(self):
         self.is_plaing = False
         self.is_pausing = False
-        self.is_lightuped = False
         self.start_datetime = None
 
     def run(self):
